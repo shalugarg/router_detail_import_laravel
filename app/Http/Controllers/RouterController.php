@@ -28,8 +28,10 @@ class RouterController extends Controller
         } 
         $path = $request->file('csv_file')->getRealPath();
         $data = array_map('str_getcsv', file($path));
+       
         $header_data=array_slice($data, 0, 1);
         $csv_data=array_shift($data);
+        // echo '<pre>';print_R($data);die;
         return view('import_fields')->with('csv_data',$data)->with('header',$header_data[0]);
     }
 
@@ -38,33 +40,52 @@ class RouterController extends Controller
     * 
     */
     public function processImport(Request $request)
-    {
+    {   
         $csvData = $request->all();
-        $csvData=$csvData['data'];
+        array_shift($csvData);
         $rules=array(
-            'sapid'=>'required|unique:router_details',
-            'hostname'=>'required',    
-            'loopback' => 'required',
-            'macaddress' => 'required|min:17'
+            'Sapid'=>'required |min:18 |max:18 |alpha_num |unique:router_details',
+            'hostname'=>'required |min:14 |max:14|alpha_num  |unique:router_details',    
+            'loopback' => 'required |ipv4',
+            'macaddress' => 'required |ipv6'
         );
-        foreach ($csvData as $data) {
+        $messages=array(
+            'unique' => ':input :attribute already exists.',
+            'ipv4'  =>  ':input :attribute must be a valid IPv4 address',
+            'alpha_num' =>  ':input :attribute may only contain letters and numbers',
+            'ipv6'  =>  ':input :attribute must be a valid IPv6 address'
+        );
+
+        $isError=false;
+        $errorMessage=array();
+        $routerDetail=array();
+        foreach ($csvData as $key=>$data) {
+            $routerDetail [substr($key, -1)][substr_replace($key ,"", -1)] =$data;
+        }
+        foreach($routerDetail as $detail){
             // Setup the validator
-            $validator = Validator::make($data, $rules);
+            $validator = Validator::make($detail, $rules, $messages);
             if ($validator->fails()) {
-                return Response::json(array(
-                    'success' => false,
-                    'errors' => $validator->getMessageBag()
-            
-                ), 400); // 400 being the HTTP code for an invalid request.
+                $isError=True;
+                $errorMessage[]=$validator->getMessageBag();
+               
             }
-        } 
-            foreach ($csvData as $data) {
-                $routerDetail = new RouterDetail();
-                foreach ($data as $field=>$fieldValue) {
-                    $routerDetail->$field = $fieldValue;
-                }
-                $routerDetail->save();
-             }
-            return response()->json(['success'=>'Data imported Successfully!!']);
+        }
+        if($isError){
+              return Response::json(array(
+                     'success' => false,
+                     'errors' => $errorMessage
+            
+                 ), 400); // 400 being the HTTP code for an invalid request.
+        }
+           
+        foreach ($routerDetail as $detail) {
+            $routerObject = new RouterDetail();
+            foreach ($detail as $field=>$fieldValue) {
+                $routerObject->$field = $fieldValue;
+            }
+            $routerObject->save();
+            }
+        return response()->json(['success'=>'Data imported Successfully!!']);
     }
 }
