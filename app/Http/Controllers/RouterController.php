@@ -31,7 +31,7 @@ class RouterController extends Controller
        
         $header_data=array_slice($data, 0, 1);
         $csv_data=array_shift($data);
-        // echo '<pre>';print_R($data);die;
+        
         return view('import_fields')->with('csv_data',$data)->with('header',$header_data[0]);
     }
 
