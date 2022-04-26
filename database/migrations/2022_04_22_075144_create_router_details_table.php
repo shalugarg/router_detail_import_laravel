@@ -15,8 +15,8 @@ class CreateRouterDetailsTable extends Migration
     {
         Schema::create('router_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Sapid')->length(20);
-            $table->string('hostname',100);
+            $table->string('Sapid')->length(18);
+            $table->string('hostname',14);
             $table->string('loopback',20);
             $table->string('macaddress',20);
             $table->timestamps();

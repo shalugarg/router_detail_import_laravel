@@ -1,3 +1,7 @@
+Language Used:Php
+Framework Used: Laravel7
+Database Used:Mysql
+ 
 Commands run to achieve the project:
 
 
@@ -5,7 +9,6 @@ Commands run to achieve the project:
 2-composer install
 3-php artisan make:migration create_router_details_table
 4-php artisan migrate
-5-composer require maatwebsite/excel
 
 Steps to get the project working at your local:
 
@@ -14,10 +17,3 @@ Steps to get the project working at your local:
 3-run composer install( to get the vendor folder)
 4-php artisan migrate(to create database table)
 5-Run localhost and your project is ready
-
-Challenges not achieved till now in this test
-(Need more time to achieve the same):
-1)Duplicate entries, rows should be highlighted in gray color with hint/title.
-2)Fields and rows which fails  in validation should be highlighted in red color.
-i)  Missing Sapid, Hostname, Loopback and Mac address
-ii)  Sapid, Hostname, Loopback and Mac address  not as per the format. 
