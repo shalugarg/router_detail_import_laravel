@@ -5,61 +5,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>    
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script> 
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>   
     <script type="text/javascript">
+     
     $(document).ready(function() {
       $(".validation-error").hide();
-      $(".alert-success").hide();
       const $tableID = $('#table');
-      // const headers = [];
+    
       // var data_error=0;
-      // const hostname_regex="/^(http(s)?\/\/:)?(www\.)?[a-zA-Z\-]{3,}(\.(com|net|org))?$/";
-
       $tableID.on('click', '.table-remove', function() {
           $(this).parents('tr').detach();
       });
-      // const $rows = $tableID.find('tr:not([id])');
-      // $rows.find('th:not([id])').each(function() {
-      //       headers.push($(this).text().toLowerCase());
-      //   }); 
-      // const $rows_without_header = $tableID.find('tr').not(':first');
-      // $rows_without_header.each(function() {
-      //   const $td = $(this).find('td:not([id])');          
-      //   headers.forEach((header, i) => {
-      //     const value=$td.eq(i).text();
-      //     if(value == ''){
-      //       $(this).css('background', 'red');
-      //     }
-      //   });
-      // });
+
+      $('#routerDetailForm').validate(
+     { 
+       rules:{},
+        highlight: function(element) {
+          $(element).closest('tr').css('background', '#ff6347');
+        },   
+        unhighlight: function (element) {
+            $(element).closest('tr').css({ 'background-color' : '', 'opacity' : '' });
+        }      
+    });
+    jQuery.validator.addClassRules({
+      'Sapid': {
+        required: true
+      },
+      'hostname': {
+        required: true
+      },
+      'loopback': {
+        required: true
+      },
+      'macaddress': {
+        required: true
+      }
+    });
+     $("#routerDetailForm").validate().form();
         $("#import_data").click(function() {
-          // const data = [];
-          const token   = $('meta[name="csrf-token"]').attr('content');
-          
-           
-          // console.log($rows_without_header);
-            // $rows_without_header.each(function() {
-            //     const $td = $(this).find('td:not([id])');
-            //     const h = {};              
-            //     headers.forEach((header, i) => {
-            //     const value=$td.eq(i).text();
-            //     if(value == '' ){
-            //       data_error=1;
-            //         $(this).css('background', 'red');
-            //     }
-            //     if(header == 'hostname' && !hostname_regex.test(value) ){
-            //       data_error=1;
-            //         $(this).css('background', 'red');
-            //     }
-            //       h[header] = value;
-            //     });
-            //     data.push(h);
-            // });
-            // if(data_error){
-            //   return false;
-            // }
-            var error_message='';
+        if( !$("#routerDetailForm").validate().form()){
+          return false;
+        }
+          var error_message='';
             $.ajax({
                 url: 'import_process',
                 type: 'POST',
@@ -94,9 +83,10 @@
         .pt-3-half {
             padding-top: 1.4rem;
         }
-        .emptyrow {
-          background:red;
+        .error {
+            background: red;
         }
+        
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
@@ -140,7 +130,7 @@
             
             @foreach ($row as $key => $value)
               <td class="pt-3-half"  contenteditable="true">
-                <input type="text" id="name" name="{{$header[$key]}}{{$rowno}}" class="form-control" value="{{$value}}">
+                <input type="text" id="{{$header[$key]}}{{$rowno}}" name="{{$header[$key]}}{{$rowno}}" class=" {{$header[$key]}} form-control" value="{{$value}}">
               </td> 
             @endforeach
                 <td id="remove">
