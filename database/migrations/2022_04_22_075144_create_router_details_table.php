@@ -14,14 +14,14 @@ class CreateRouterDetailsTable extends Migration
     public function up()
     {
         Schema::create('router_details', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('Sapid')->length(18);
-            $table->string('hostname',14);
-            $table->string('loopback',20);
-            $table->string('macaddress',20);
+            $table->bigIncrements('id');
+            $table->char('sapid')->length(18);
+            $table->char('hostname',14);
+            $table->char('loopback',15);
+            $table->char('macaddress',17);
             $table->timestamps();
             $table->primary('id');
-            $table->index(['Sapid', 'hostname','loopback','macaddress']);
+            $table->index(['sapid', 'hostname']);
         });
     }
 

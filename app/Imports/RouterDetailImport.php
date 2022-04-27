@@ -8,9 +8,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 class RouterDetailImport implements ToModel
 {
     /**
-    * @param array $row
+    * @param  array  $row
     *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @return  \Illuminate\Database\Eloquent\Model|null
     */
     public function model(array $row)
     {
