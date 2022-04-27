@@ -15,7 +15,7 @@ class RouterDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'Sapid', 'hostname', 'loopback','macaddress',
+        'sapid', 'hostname', 'loopback','macaddress',
     ];
 
 

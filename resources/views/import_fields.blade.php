@@ -43,7 +43,7 @@
         function getduplicates() {
             var error = 0;
             for (let i = 0; i < data_row_count; i++) {
-                sapid_array.push($('#Sapid' + i).val());
+                sapid_array.push($('#sapid' + i).val());
             }
             var hostname_array = [];
             for (let i = 0; i < data_row_count; i++) {
@@ -51,7 +51,7 @@
             }
             rows_without_header.each(function(index, tr) {
                 headers.forEach((header, i) => {
-                    if (header == 'Sapid') {
+                    if (header == 'sapid') {
                         var value = $('#' + header + index).val();
                         var value_count = 0;
                         value_count = getcount(value, sapid_array);
@@ -59,6 +59,7 @@
                             error = 1;
                             $('#row' + index).removeClass('duplicates');
                             $('#row' + index).addClass('duplicates');
+                            $()
                         }
                     }
                     if (header == 'hostname') {
@@ -93,7 +94,7 @@
             }
         });
         jQuery.validator.addClassRules({
-            'Sapid': {
+            'sapid': {
                 required: true
             },
             'hostname': {
@@ -108,13 +109,15 @@
         });
         $("#routerDetailForm").validate().form();
         $("#import_data").click(function() {
-
             if (!$("#routerDetailForm").validate().form()) {
                 return false;
             }
+
             if (!getduplicates()) {
+                alert('bI');
                 return false;
             }
+            alert('HI');
             var error_message = '';
             $.ajax({
                 url: 'import_process',
@@ -172,7 +175,7 @@
             <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
                 Csv Data to be Imported
             </h3>
-            @if ($errors->any())
+            <!-- @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -180,7 +183,7 @@
                     @endforeach
                 </ul>
             </div>
-            @endif
+            @endif -->
             <div class="alert alert-danger validation-error">
             </div>
             <div class="card-body">
@@ -190,7 +193,7 @@
                         <thead>
                             <tr>
                                 @foreach ($header as $key =>$row)
-                                <th class="text-center">{{ $row }}</th>
+                                <th class="text-center">{{ ucfirst($row) }}</th>
                                 @endforeach
                                 <th id="remove_head" class="text-center">Action</th>
                             </tr>
@@ -201,9 +204,9 @@
 
                                 @foreach ($row as $key => $value)
                                 <td class="pt-3-half" contenteditable="true">
-                                    <input type="text" id="{{$header[$key]}}{{$rowno}}"
-                                        name="{{$header[$key]}}{{$rowno}}" class=" {{$header[$key]}} form-control"
-                                        value="{{$value}}">
+                                    <input type="text" id="{{strtolower($header[$key])}}{{$rowno}}"
+                                        name="{{strtolower($header[$key])}}{{$rowno}}"
+                                        class=" {{strtolower($header[$key])}} form-control" value="{{$value}}">
                                 </td>
                                 @endforeach
                                 <td id="remove">
@@ -221,10 +224,7 @@
             </div>
         </div>
         <!-- Editable table -->
-
     </form>
-
-
     <button class="btn btn-primary" id="import_data">
         Import Data
     </button>

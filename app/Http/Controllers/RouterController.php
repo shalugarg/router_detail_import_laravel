@@ -19,20 +19,17 @@ class RouterController extends Controller
     */
     public function import(Request $request) 
     {
+        $data= \Excel::toArray(new RouterDetailImport(), $request->file('csv_file'));
         $rules= array(
-            'csv_file'=>'required',
+            'csv_file'=>'required|mimes:xls,xlsx',
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return view('import_fields')->with('error','Csv File required');
+            return view('welcome')->withErrors($validator);
         } 
-        $path = $request->file('csv_file')->getRealPath();
-        $data = array_map('str_getcsv', file($path));
-       
-        $header_data=array_slice($data, 0, 1);
-        $csv_data=array_shift($data);
-        
-        return view('import_fields')->with('csv_data',$data)->with('header',$header_data[0]);
+        $excelData=$data[0]; 
+        $headerData=array_change_key_case(array_shift($excelData));
+        return view('import_fields')->with('csv_data',$excelData)->with('header',$headerData);
     }
 
     /**Function to get the csv data displayed and save it to db

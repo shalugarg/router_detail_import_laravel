@@ -14,8 +14,11 @@ class RouterDetailImport implements ToModel
     */
     public function model(array $row)
     {
-        return new RouterDetail([
-            //
-        ]);
+        // return new RouterDetail([
+        //     'sapid' => $row[0], 
+        //     'hostname' => $row[1], 
+        //     'loopback' => $row[2],
+        //     'macaddress' => $row[3],
+        // ]);
     }
 }

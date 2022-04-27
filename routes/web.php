@@ -18,4 +18,3 @@ Route::get('/', function () {
 });
 Route::post('import', 'RouterController@import')->name('import');
 Route::post('/import_process', 'RouterController@processImport')->name('import_process');
-
