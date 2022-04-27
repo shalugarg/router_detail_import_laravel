@@ -22266,15 +22266,11 @@ $(document).ready(function () {
   });
   $("#routerDetailForm").validate().form();
   $("#import_data").click(function () {
-    alert('goo');
-
     if (!$("#routerDetailForm").validate().form()) {
-      alert('hiii');
       return false;
     }
 
     if (!getduplicates()) {
-      alert('bpp');
       return false;
     }
 

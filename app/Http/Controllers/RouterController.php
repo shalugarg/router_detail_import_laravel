@@ -52,7 +52,7 @@ class RouterController extends Controller
             'sapid'=>'required |min:18 |max:18 |alpha_num |unique:router_details',
             'hostname'=>'required |min:14 |max:14|alpha_num  |unique:router_details',    
             'loopback' => 'required |ipv4',
-            'macaddress' => 'required |ipv6'
+            'macaddress' => ['required' ,'regex:/^(([0-9a-fA-F]{2}-){5}|([0-9a-fA-F]{2}:){5})[0-9a-fA-F]{2}$/'],
         );
 
         //Custom messages
@@ -60,7 +60,7 @@ class RouterController extends Controller
             'unique' => ':input :attribute already exists.',
             'ipv4'  =>  ':input :attribute must be a valid IPv4 address',
             'alpha_num' =>  ':input :attribute may only contain letters and numbers',
-            'ipv6'  =>  ':input :attribute must be a valid IPv6 address'
+            'regex'  =>  ':input :attribute must be a valid mac address'
         );
 
         $isError=false;
@@ -95,4 +95,5 @@ class RouterController extends Controller
             }
         return response()->json(['success'=>'Data imported Successfully!!']);
     }
+    
 }
