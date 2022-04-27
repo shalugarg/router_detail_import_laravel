@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
 use App\RouterDetail;
 
-
+/**
+ * Used to display and upload excel data of Router details 
+ */
 class RouterController extends Controller
 {
     
@@ -18,7 +20,7 @@ class RouterController extends Controller
      * Import data from excel file and display
      *
      * @param  object  $request
-     * @return void
+     * @return resource The page to redirect to
      *
      */
     public function import(Request $request) 
@@ -36,11 +38,12 @@ class RouterController extends Controller
         $headerData=array_change_key_case(array_shift($excelData));
         return view('import_fields')->with('csv_data',$excelData)->with('header',$headerData);
     }
+
     /**
      *Save the excel data to db
      *
      * @param  object  $request
-     * @return view
+     * @return json
      *
      */
     public function processImport(Request $request)
