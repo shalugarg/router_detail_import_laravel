@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2022 at 12:59 PM
+-- Generation Time: Apr 27, 2022 at 08:51 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `router_details` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `Sapid` varchar(18) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hostname` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `loopback` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `macaddress` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int(20) UNSIGNED NOT NULL,
+  `Sapid` char(18) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hostname` char(14) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `loopback` char(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `macaddress` char(17) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -55,7 +55,7 @@ ALTER TABLE `router_details`
 -- AUTO_INCREMENT for table `router_details`
 --
 ALTER TABLE `router_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

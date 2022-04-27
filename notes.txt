@@ -9,6 +9,12 @@ Commands run to achieve the project:
 2-composer install
 3-php artisan make:migration create_router_details_table
 4-php artisan migrate
+5-php artisan key:generate
+6-composer require maatwebsite/excel
+7-composer update
+8-php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+9-npm install
+10-npm run dev
 
 Steps to get the project working at your local:
 
@@ -16,4 +22,5 @@ Steps to get the project working at your local:
 2-update the env file with your credentials of the database
 3-run composer install( to get the vendor folder)
 4-php artisan migrate(to create database table)
-5-Run localhost and your project is ready
+5-Make sure you run all above commands to get your project ready
+6-Run localhost and your project is ready
